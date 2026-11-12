@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quibdó Sin Residuos - Gestión Integral de Residuos Sólidos</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<script src="js/tailwind-config.js"></script>
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body class="bg-brand-50 text-slate-800 font-sans flex flex-col min-h-screen">
+
+<nav class="bg-brand-900 sticky top-0 z-50 shadow-lg">
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+  <a href="#inicio" class="flex items-center gap-3"><span class="bg-lime2 text-brand-900 w-10 h-10 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-recycle"></i></span><span><b class="text-white text-lg block leading-none">Quibdó Sin Residuos</b><small class="text-brand-400 text-xs">Una ciudad más limpia es posible</small></span></a>
+  <div class="hidden md:flex gap-6 text-sm font-semibold text-brand-100"><a href="#inicio" class="hover:text-lime2">Inicio</a><a href="#tipos" class="hover:text-lime2">Residuos</a><a href="#rutas" class="hover:text-lime2">Rutas y horarios</a><a href="#reportes" class="hover:text-lime2">Reportes</a><a href="#mapa" class="hover:text-lime2">Mapa</a></div>
+  <button id="btnLogin" class="bg-lime2 hover:bg-lime-300 text-brand-900 text-sm font-bold px-4 py-2 rounded-full"><i class="fa-solid fa-lock"></i> Administración</button>
+ </div>
+</nav>
+
+<header id="inicio" class="bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white py-14 px-4 relative overflow-hidden">
+ <div class="absolute -right-20 -top-20 w-72 h-72 rounded-full bg-brand-500/20"></div><div class="absolute right-40 bottom-0 w-40 h-40 rounded-full bg-lime2/10"></div>
+ <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative">
+  <div class="max-w-2xl space-y-4">
+   <span class="bg-lime2 text-brand-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Información para toda la comunidad</span>
+   <h1 class="text-4xl sm:text-6xl font-black tracking-tight">Quibdó <span class="text-lime2">Sin Residuos</span></h1>
+   <p class="text-brand-100 text-base sm:text-lg">Conoce cómo separar tus residuos, consulta los días y horarios del camión recolector según tu barrio y consulta los puntos críticos reportados en la ciudad.</p>
+   <div class="flex flex-wrap gap-3 pt-2"><a href="#rutas" class="bg-lime2 text-brand-900 font-bold px-6 py-3 rounded-full shadow hover:bg-lime-300">Consultar horarios</a><a href="#reportes" class="border-2 border-brand-400 text-white font-semibold px-6 py-3 rounded-full hover:bg-white/10">Ver reportes</a></div>
+  </div>
+  <div class="bg-white/10 backdrop-blur border border-white/20 p-6 rounded-3xl text-center max-w-xs shadow-xl">
+   <div class="w-20 h-20 mx-auto bg-lime2 text-brand-900 rounded-full flex items-center justify-center text-4xl mb-3"><i class="fa-solid fa-truck-moving"></i></div>
+   <h3 class="font-bold text-lg">¡Cuidemos nuestro entorno!</h3><p class="text-xs text-brand-100 mt-1">Pequeñas acciones comunitarias generan grandes cambios en Quibdó.</p>
+   <div id="heroHoy" class="mt-4 bg-brand-900/60 rounded-xl p-3 text-sm font-semibold"></div>
+  </div>
+ </div>
+</header>
+
+<main class="flex-grow">
+
+<section id="tipos" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-6">
+ <div><span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Aprende a separar</span><h2 class="text-3xl font-extrabold text-brand-900">Conoce los tipos de residuos</h2><p class="text-slate-600 text-sm">Tres bolsas: blanca, negra y verde.</p></div>
+ <div class="grid md:grid-cols-3 gap-6">
+  <div class="bg-white p-6 rounded-3xl border-2 border-sky-200 shadow-sm hover:shadow-lg transition space-y-3"><div class="w-14 h-14 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center text-2xl"><i class="fa-solid fa-box-archive"></i></div><span class="text-xs font-bold bg-sky-50 text-sky-700 px-2.5 py-0.5 rounded-full">Bolsa blanca · Aprovechables</span><h3 class="font-bold text-lg">Residuos aprovechables</h3><p class="text-xs text-slate-600">Papel, cartón, plástico, vidrio y metales limpios y secos. <b>Ej:</b> botellas, cajas, latas.</p></div>
+  <div class="bg-white p-6 rounded-3xl border-2 border-slate-300 shadow-sm hover:shadow-lg transition space-y-3"><div class="w-14 h-14 bg-slate-200 text-slate-700 rounded-2xl flex items-center justify-center text-2xl"><i class="fa-solid fa-trash-can"></i></div><span class="text-xs font-bold bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-full">Bolsa negra · No aprovechables</span><h3 class="font-bold text-lg">Residuos no aprovechables</h3><p class="text-xs text-slate-600">Materiales que no pueden aprovecharse en procesos habituales. <b>Ej:</b> servilletas usadas, papel higiénico, envases sucios.</p></div>
+  <div class="bg-white p-6 rounded-3xl border-2 border-brand-200 shadow-sm hover:shadow-lg transition space-y-3"><div class="w-14 h-14 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center text-2xl"><i class="fa-solid fa-leaf"></i></div><span class="text-xs font-bold bg-brand-50 text-brand-700 px-2.5 py-0.5 rounded-full">Bolsa verde · Orgánicos</span><h3 class="font-bold text-lg">Residuos orgánicos</h3><p class="text-xs text-slate-600">Restos de alimentos y vegetales para compostaje. <b>Ej:</b> cáscaras, restos de verduras, podas.</p></div>
+ </div>
+</section>
+
+<section id="rutas" class="bg-gradient-to-b from-brand-100 to-brand-50 py-14">
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="mb-6"><span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Información de servicio público</span><h2 class="text-3xl font-extrabold text-brand-900">Rutas y horarios de recolección</h2><p class="text-slate-600 text-sm">Selecciona tu barrio para conocer los días y horarios del camión.</p></div>
+  <div class="bg-white rounded-3xl p-6 shadow-md border border-brand-200 mb-5 grid lg:grid-cols-3 gap-6">
+   <div><label for="selectBarrio" class="block text-sm font-bold text-brand-800 mb-2">Selecciona un barrio de Quibdó:</label><select id="selectBarrio" class="w-full bg-brand-50 border border-brand-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none"></select></div>
+   <div id="infoRutaBox" class="lg:col-span-2 bg-brand-50 border border-brand-200 p-4 rounded-2xl text-sm text-brand-900 min-h-[90px]">Elige un barrio y te mostramos su zona, días y horario.</div>
+  </div>
+  <div id="todayBox" class="bg-gradient-to-r from-brand-600 to-teal-500 text-white rounded-2xl p-4 font-bold shadow-md mb-5"></div>
+  <h3 class="font-extrabold text-lg text-brand-900 mb-3">📅 Tu semana de un vistazo</h3>
+  <div id="weekGrid" class="grid grid-cols-4 sm:grid-cols-7 gap-3 mb-6"></div>
+  <div class="bg-sky-50 border border-sky-200 border-l-4 border-l-sky-500 rounded-xl p-4 text-xs text-sky-900 mb-5"><b>Importante:</b> información transcrita de los afiches de Rutas de Recolección de las Empresas Públicas de Quibdó (EPQ). Confirma con la empresa si horarios y sectores siguen vigentes.</div>
+  <div class="flex flex-wrap gap-2 mb-5" id="chips"></div>
+  <div id="zonesGrid" class="columns-1 md:columns-2 xl:columns-3 gap-5"></div>
+  <div class="bg-brand-900 text-white rounded-2xl p-5 text-sm mt-2 flex gap-4 items-start"><i class="fa-solid fa-circle-info text-lime2 text-xl mt-0.5"></i><p><b>Recomendaciones:</b> saca los residuos máximo 3 horas antes del horario de tu zona, en bolsas resistentes y bien cerradas. Para residuos especiales (colchones, muebles, neveras) contacta a la empresa de aseo.</p></div>
+ </div>
+</section>
+
+<section id="reportes" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-6">
+ <div><span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Participación comunitaria</span><h2 class="text-3xl font-extrabold text-brand-900">Reporte de puntos críticos</h2><p class="text-slate-600 text-sm">Puntos críticos reportados por la administración. Cualquiera puede consultarlos.</p></div>
+ <div class="grid lg:grid-cols-3 gap-8 items-start">
+  <div class="bg-white p-6 rounded-3xl border-2 border-brand-200 shadow-md space-y-4">
+   <div id="bloqueado" class="text-center space-y-3 py-4">
+    <div class="w-14 h-14 mx-auto bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center text-2xl"><i class="fa-solid fa-lock"></i></div>
+    <h3 class="font-bold text-lg text-brand-900">Publicar reportes</h3>
+    <p class="text-xs text-slate-600">Solo el personal autorizado puede registrar reportes. Si tienes cuenta, inicia sesión.</p>
+    <button id="btnLogin2" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-5 py-2.5 rounded-full">Iniciar sesión</button>
+   </div>
+   <div id="adminForm" class="hidden space-y-4">
+   <h3 class="font-bold text-lg text-brand-900 border-b pb-2"><i class="fa-solid fa-pen-to-square text-brand-600"></i> Registrar nuevo reporte</h3>
+   <p class="text-[11px] text-slate-500">Sesión: <b id="adminEmail"></b></p>
+   <form id="formReporte" class="space-y-4">
+    <div><label class="block text-xs font-semibold mb-1">Barrio o sector en Quibdó *</label><input id="repBarrio" required placeholder="Ej. Kennedy, Huapango..." class="w-full text-xs border border-slate-300 rounded-xl p-2.5 focus:ring-2 focus:ring-brand-500 focus:outline-none"></div>
+    <div><label class="block text-xs font-semibold mb-1">Descripción *</label><textarea id="repDesc" required rows="3" placeholder="Describe el problema..." class="w-full text-xs border border-slate-300 rounded-xl p-2.5 focus:ring-2 focus:ring-brand-500 focus:outline-none"></textarea></div>
+    <div><label class="block text-xs font-semibold mb-1">Estado</label><select id="repEstado" class="w-full text-xs border border-slate-300 rounded-xl p-2.5"><option>Pendiente</option><option>Atención</option><option>Resuelto</option></select></div>
+    <div><label class="block text-xs font-semibold mb-1">Fotografía (opcional)</label><input type="file" id="repFoto" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-brand-100 file:text-brand-800"></div>
+    <img id="imgPreview" class="hidden w-full h-32 object-cover rounded-xl" alt="Previsualización">
+    <button id="btnSubmit" class="w-full bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold py-3 rounded-full"><i class="fa-solid fa-paper-plane"></i> Publicar reporte</button>
+    </form>
+   </div>
+  </div>
+  <div class="lg:col-span-2 space-y-4">
+   <div class="flex justify-between items-center border-b pb-2"><h3 class="font-bold text-brand-900">Situaciones reportadas</h3><span id="total" class="text-xs bg-brand-600 text-white px-3 py-0.5 rounded-full font-semibold"></span></div>
+   <div id="listaRep" class="grid md:grid-cols-2 gap-4"></div>
+  </div>
+ </div>
+</section>
+
+<section id="mapa" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 space-y-4">
+ <div><span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Ubicación en Quibdó</span><h2 class="text-3xl font-extrabold text-brand-900">Puntos reportados en el mapa</h2></div>
+ <div class="bg-white p-4 rounded-3xl border-2 border-brand-200 shadow-md"><div id="leaflet-map" class="w-full h-96 rounded-2xl"></div>
+  <div class="flex flex-wrap gap-4 text-xs justify-center pt-3 text-slate-600"><span><i class="fa-solid fa-circle text-red-600"></i> Pendiente</span><span><i class="fa-solid fa-circle text-amber-500"></i> En atención</span><span><i class="fa-solid fa-circle text-brand-600"></i> Resuelto</span></div></div>
+</section>
+</main>
+
+<div id="modalLogin" class="hidden fixed inset-0 z-[1000] bg-black/60 items-center justify-center p-4">
+ <form id="formLogin" class="bg-white rounded-3xl p-6 w-full max-w-sm space-y-4 shadow-2xl">
+  <h3 class="font-bold text-lg text-brand-900"><i class="fa-solid fa-lock text-brand-600"></i> Acceso de administración</h3>
+  <div><label class="block text-xs font-semibold mb-1" for="loginEmail">Correo</label><input id="loginEmail" type="email" required autocomplete="username" class="w-full text-sm border border-slate-300 rounded-xl p-2.5 focus:ring-2 focus:ring-brand-500 focus:outline-none"></div>
+  <div><label class="block text-xs font-semibold mb-1" for="loginPass">Contraseña</label><input id="loginPass" type="password" required autocomplete="current-password" class="w-full text-sm border border-slate-300 rounded-xl p-2.5 focus:ring-2 focus:ring-brand-500 focus:outline-none"></div>
+  <p id="loginError" class="text-xs text-red-600 min-h-[1rem]"></p>
+  <div class="flex gap-2"><button type="button" id="btnCancelar" class="flex-1 border border-slate-300 text-slate-600 text-sm font-semibold py-2.5 rounded-full">Cancelar</button><button class="flex-1 bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold py-2.5 rounded-full">Entrar</button></div>
+ </form>
+</div>
+
+<footer class="bg-brand-900 text-brand-100 text-xs py-10 border-t-4 border-lime2">
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8">
+  <div class="space-y-2"><b class="text-white text-base"><i class="fa-solid fa-recycle text-lime2"></i> Quibdó Sin Residuos</b><p class="text-brand-200 leading-relaxed">Plataforma de cultura ambiental y participación ciudadana para la gestión de los residuos sólidos en Quibdó.</p></div>
+  <div class="space-y-2"><b class="text-white text-sm">Secciones</b><ul class="space-y-1"><li><a href="#tipos" class="hover:text-lime2">Guía de clasificación</a></li><li><a href="#rutas" class="hover:text-lime2">Horarios de recolección</a></li><li><a href="#reportes" class="hover:text-lime2">Reportes</a></li><li><a href="#mapa" class="hover:text-lime2">Mapa</a></li></ul></div>
+  <div class="space-y-2"><b class="text-white text-sm">Atención ciudadana</b><p><i class="fa-solid fa-location-dot text-lime2"></i> Quibdó, Chocó — Colombia</p><p class="text-brand-300">&copy; 2026 Proyecto académico.</p></div>
+ </div>
+</footer>
+
+<script src="js/utils.js"></script>
+<script src="js/data.js"></script>
+<script src="js/rutas.js"></script>
+<script src="js/admins.js"></script>
+<script src="js/reportes.js"></script>
+
+</body></html>

@@ -1,0 +1,27 @@
+/* ===== RUTAS (fuente: afiches EPQ) · d: 0=dom ... 6=sáb ===== */
+const Z3=['Carrera 6, calle 25, carrera 7, calle 24, Yesca Grande, Chamblún, carrera 9, Alameda Reyes hasta el rompeolas de la carrera 26, carrera 8, Silencio y Las Américas.','De la carrera 1ra a la 6ta, de la calle 24 a la 31, Cesar Conto, Cristo Rey y Alameda Reyes.'];
+const ZONAS=[
+{n:'1',t:'6:00 a. m. – 2:00 p. m.',d:[1,3,5],b:['Santa Helena, Obrero, Las Brisas, Piñal de Obrero, La Fe, La Gloria, La Unión, La Victoria, Casimiro, Villa López, Casa Blanca, Villa España, Futuro 1 y 2, Samper y San Marcos.','La Paz, Buenos Aires, Subestación, Mis Esfuerzos, Mira Flórez, Colegio IEFEM, Tomas Pérez y Porvenir.','Avenida Huapango, Reposo, Marsella, Monserrate, Álamos, San José y Kennedy.']},
+{n:'2',t:'8:00 p. m. – 4:00 a. m.',d:[1,3,5],b:['Avenida Aeropuerto, Los Ángeles, Centro Comercial El Caraño, Las Palmeras, Paraíso, Bonanza, Urbanización Virgen del Carmen, Ciudadela Mía, Las Colinas y Bosques de la Platina.','Carrera 8, calle 30, Julio Figueroa, Santo Domingo, San Judas, Santa Ana, Calle La Esperanza, Esmeralda, Cohimbra, sector Mamau y sector Sur América.']},
+{n:'3',nombre:'Zona 3 (día)',t:'6:00 a. m. – 2:00 p. m.',d:[1,3,5],b:Z3},
+{n:'3',nombre:'Zona 3 (noche)',t:'8:00 p. m. – 4:00 a. m.',d:[2,4,6],b:[...Z3,'Calles 31 a la 20 (entre carreras 1 y 10), Silencio y Chamblún.']},
+{n:'4',t:'8:00 p. m. – 4:00 a. m.',d:[2,4,6],b:['San Vicente, San Martín, Pablo VI, Niño Jesús, Palenque, Sector Cabí y Avenida Acueducto.']},
+{n:'5',t:'6:00 a. m. – 2:00 p. m.',d:[2,4,6],b:['Aurora, Avenida Medrano, Viento Libre, La Playita, Las Mercedes, Horizonte, El Piñal, Las Palmas, Simón Bolívar y Alfonso López hasta el semáforo de la UTCH.','La Cascorba, Doña Ita, 13 de Mayo, Urbanización Flores de Buenaños, Pandocito, El Poblado, El Desecho, Puente Cabí, Villa Avelina, Avenida al terminal y Kilómetro 7.','Los Rosales, La Violetas, La Victoria (Zona Minera), Jazmín, del Tambo a la UTCH, San Francisco de Medrano, Las Terrazas, Montebello, La Prendería, Puente La Cascorba y El Guaje.']},
+{n:'6',t:'6:00 a. m. – 2:00 p. m.',d:[2,4,6],b:['Minuto de Dios, Coliseo, Las Margaritas (Chicharronal y Florida), La 18, 19A y B, Avenida principal hasta Los Castillos.','Los Ángeles, Condoto, Monterey, Flor de Mayo 1 y 2, Las Primaveras, Oasis 1 y 2, Los Girasoles, Suba 1 y 2, Altos de Los Castillos, Las Villas, Villa Country, El Piñal, Obapo, Casa Blanca, Buena Vista y Uribe.']},
+{n:'D',nombre:'Recorrido dominical',t:'8:00 p. m. – 4:00 a. m.',d:[0],b:['Calles 31 a la 20 (entre carreras 1 y 10), Silencio y Chamblún.']}];
+const BS={'1':['Santa Helena','Obrero','Las Brisas','Piñal de Obrero','La Fe','La Gloria','La Unión','La Victoria','Casimiro','Villa López','Casa Blanca','Villa España','Futuro','Samper','San Marcos','La Paz','Buenos Aires','Subestación','Mis Esfuerzos','Mira Flórez','Tomas Pérez','Porvenir','Avenida Huapango','Reposo','Marsella','Monserrate','Álamos','San José','Kennedy'],
+'2':['Avenida Aeropuerto','Los Ángeles','El Caraño','Las Palmeras','Paraíso','Bonanza','Virgen del Carmen','Ciudadela Mía','Las Colinas','Bosques de la Platina','Julio Figueroa','Santo Domingo','San Judas','Santa Ana','La Esperanza','Esmeralda','Cohimbra','Mamau','Sur América'],
+'3':['Yesca Grande','Chamblún','Alameda Reyes','Silencio','Las Américas','Cesar Conto','Cristo Rey'],
+'4':['San Vicente','San Martín','Pablo VI','Niño Jesús','Palenque','Sector Cabí'],
+'5':['Aurora','Medrano','Viento Libre','La Playita','Las Mercedes','Horizonte','El Piñal','Las Palmas','Simón Bolívar','Alfonso López','La Cascorba','Doña Ita','13 de Mayo','Flores de Buenaños','Pandocito','El Poblado','El Desecho','Puente Cabí','Villa Avelina','Kilómetro 7','Los Rosales','La Violetas','La Victoria','Jazmín','San Francisco de Medrano','Las Terrazas','Montebello','La Prendería','El Guaje'],
+'6':['Minuto de Dios','Coliseo','Las Margaritas','Chicharronal','Florida','Los Ángeles','Condoto','Monterey','Flor de Mayo','Las Primaveras','Oasis','Los Girasoles','Suba','Altos de Los Castillos','Las Villas','Villa Country','El Piñal','Obapo','Casa Blanca','Buena Vista','Uribe'],
+'D':['Silencio','Chamblún']};
+/* Paleta verde/teal/azul/lima (de las plantillas ambientales) */
+const TH={'1':{h:'from-green-500 to-green-800',chip:'bg-green-50 text-green-900 border-green-200',bd:'border-green-300',on:'bg-green-600',ring:'ring-green-300'},
+'2':{h:'from-teal-500 to-teal-800',chip:'bg-teal-50 text-teal-900 border-teal-200',bd:'border-teal-300',on:'bg-teal-600',ring:'ring-teal-300'},
+'3d':{h:'from-lime-400 to-lime-700',chip:'bg-lime-50 text-lime-900 border-lime-300',bd:'border-lime-400',on:'bg-lime-600',ring:'ring-lime-300'},
+'3n':{h:'from-sky-500 to-blue-800',chip:'bg-sky-50 text-sky-900 border-sky-200',bd:'border-sky-300',on:'bg-sky-600',ring:'ring-sky-300'},
+'4':{h:'from-cyan-500 to-cyan-800',chip:'bg-cyan-50 text-cyan-900 border-cyan-200',bd:'border-cyan-300',on:'bg-cyan-600',ring:'ring-cyan-300'},
+'5':{h:'from-emerald-500 to-emerald-800',chip:'bg-emerald-50 text-emerald-900 border-emerald-200',bd:'border-emerald-300',on:'bg-emerald-600',ring:'ring-emerald-300'},
+'6':{h:'from-yellow-400 to-amber-600',chip:'bg-yellow-50 text-yellow-900 border-yellow-300',bd:'border-yellow-400',on:'bg-amber-500',ring:'ring-yellow-300'},
+'D':{h:'from-brand-700 to-brand-900',chip:'bg-brand-100 text-brand-900 border-brand-200',bd:'border-brand-300',on:'bg-brand-800',ring:'ring-brand-300'}};
